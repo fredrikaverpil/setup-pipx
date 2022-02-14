@@ -8,7 +8,7 @@
 on: [push]
 
 jobs:
-  creosote:
+  example:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
