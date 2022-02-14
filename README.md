@@ -19,8 +19,7 @@ jobs:
         with:
           python-version: "3.10"
       - uses: fredrikaverpil/pipx-action@v1.1
-      - run: |
-          pipx install creosote
+      - run: pipx install creosote
       - run: creosote
 ```
 
