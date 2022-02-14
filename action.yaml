@@ -4,13 +4,36 @@ description: Pipx setup for GitHub Actions
 runs:
   using: composite
   steps:
-    - run: python -m venv /opt/pipx_venv
+    # Linux, macOS
+    - run: python -m venv ../pipx_venv
+      if: runner.os != 'Windows'
       shell: bash
-    - run: /opt/pipx_venv/bin/python -m pip install pipx
+    - run: ../pipx_venv/bin/python -m pip install pipx
+      if: runner.os != 'Windows'
       shell: bash
     - run: mv /usr/local/bin/pipx /usr/local/bin/pipx_orig
+      if: runner.os != 'Windows'
       shell: bash
-    - run: cp /opt/pipx_venv/bin/pipx /usr/local/bin/pipx
+    - run: cp ../pipx_venv/bin/pipx /usr/local/bin/pipx
+      if: runner.os != 'Windows'
       shell: bash
     - run: echo "/.local/bin" >> $GITHUB_PATH
+      if: runner.os != 'Windows'
       shell: bash
+
+    # Windows
+    - run: python -m venv ..\pipx_venv
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: ..\pipx_venv\Scripts\python -m pip install pipx
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: mkdir -p $HOME\.local\Scripts
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: cp ..\pipx_venv\Scripts\pipx.exe $HOME\.local\Scripts\pipx.exe
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: echo "$HOME\.local\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      if: runner.os == 'Windows'
+      shell: pwsh
