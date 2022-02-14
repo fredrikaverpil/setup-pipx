@@ -1,6 +1,6 @@
 # pipx-action
 
-Pipx setup for GitHub Actions.
+[Pipx](https://github.com/pypa/pipx) setup for GitHub Actions.
 
 ## Quickstart example
 
@@ -25,7 +25,9 @@ jobs:
 
 ## Why?
 
-[Pipx](https://github.com/pypa/pipx) is installed by default in `/usr/local/pipx`
-(using Python 3.8) when using GitHub Actions and `ubuntu-latest`.
+Pipx is installed by default in the GitHub Action runners. However, you can't control
+which Python version will be used by pipx.
 
-This GitHub Action adds the ability to use another Python version for pipx.
+This GitHub Action aims to solve this problem, by utilizing
+[`actions/setup-python`](https://github.com/actions/setup-python) to pick the desired
+Python version.
