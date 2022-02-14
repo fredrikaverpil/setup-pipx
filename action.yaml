@@ -1,6 +1,11 @@
 name: Pipx setup
 description: Pipx setup for GitHub Actions
 
+inputs:
+  pipx-version:
+    description: The version of pipx to use.
+    required: false
+
 runs:
   using: composite
   steps:
@@ -8,9 +13,15 @@ runs:
     - run: python -m venv ../pipx_venv
       if: runner.os != 'Windows'
       shell: bash
+
     - run: ../pipx_venv/bin/python -m pip install pipx
-      if: runner.os != 'Windows'
+      if: ${{ runner.os != 'Windows' && inputs.pipx-version == '' }}
       shell: bash
+
+    - run: ../pipx_venv/bin/python -m pip install pipx==${{ inputs.pipx-version }}
+      if: ${{ runner.os != 'Windows' && inputs.pipx-version != '' }}
+      shell: bash
+
     - run: mv /usr/local/bin/pipx /usr/local/bin/pipx_orig
       if: runner.os != 'Windows'
       shell: bash
@@ -26,7 +37,10 @@ runs:
       if: runner.os == 'Windows'
       shell: pwsh
     - run: ..\pipx_venv\Scripts\python -m pip install pipx
-      if: runner.os == 'Windows'
+      if: ${{ runner.os == 'Windows' && inputs.pipx-version == '' }}
+      shell: pwsh
+    - run: ..\pipx_venv\Scripts\python -m pip install pipx==${{ inputs.pipx-version }}
+      if: ${{ runner.os == 'Windows' && inputs.pipx-version != '' }}
       shell: pwsh
     - run: mkdir -p $HOME\.local\Scripts
       if: runner.os == 'Windows'
