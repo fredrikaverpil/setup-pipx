@@ -26,3 +26,4 @@ jobs:
 - Pipx will be installed in an isolated virtual environment (not in the system install of Python)
 - Control the Python interpreter version with [`actions/setup-python`](https://github.com/actions/setup-python)
 - Control the pipx version using the optional `with: pipx-version` statement
+- Support for linux, macOS and windows runners
