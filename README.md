@@ -57,6 +57,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - uses: fredrikaverpil/setup-pipx@v1.3
+        with:
+          pipx-version: ${{ matrix.pipx-version }}
       - uses: actions/cache@v2
         id: cache
         with:
@@ -67,9 +70,6 @@ jobs:
             ~/.local/bin
             ~/.local/Scripts
           key: ${{ runner.os }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
-      - uses: fredrikaverpil/setup-pipx@v1.3
-        with:
-          pipx-version: ${{ matrix.pipx-version }}
 
       - run: |
           pipx install poetry
