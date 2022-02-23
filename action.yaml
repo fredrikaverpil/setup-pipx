@@ -51,7 +51,7 @@ runs:
 
     # Windows
     
-    - run: pip uninstall pipx || echo "Always return non-zero exit code"
+    - run: pip uninstall -y pipx || echo "Always return non-zero exit code"
       # specific fix for windows
       if: runner.os == 'Windows'
       shell: pwsh
