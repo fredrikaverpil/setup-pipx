@@ -57,7 +57,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: fredrikaverpil/setup-pipx@v1.3
+      - uses: fredrikaverpil/setup-pipx@v1.4
         with:
           pipx-version: ${{ matrix.pipx-version }}
       - uses: actions/cache@v2
@@ -66,9 +66,10 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/pypoetry/virtualenvs
-            ../pipx_venv
+            ~/.local/pipx
             ~/.local/bin
-            ~/.local/Scripts
+            C:\Program Files (x86)\pipx
+            C:\Program Files (x86)\pipx_bin
           key: ${{ runner.os }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
 
       - run: |
