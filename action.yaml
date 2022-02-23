@@ -58,13 +58,13 @@ runs:
     - run: mkdir -p $HOME\.local
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: echo "PIPX_BIN_DIR=\"C:\Program Files (x86)\pipx_bin\"" >> $GITHUB_ENV
+    - run: echo "PIPX_BIN_DIR=%programfiles(x86)%\pipx_bin" >> $GITHUB_ENV
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: echo "PIPX_HOME=\"C:\Program Files (x86)\pipx\"" >> $GITHUB_ENV
+    - run: echo "PIPX_HOME=%programfiles(x86)%\pipx" >> $GITHUB_ENV
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: echo "C:\Program Files (x86)\pipx_bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    - run: echo "%programfiles(x86)%\pipx_bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       if: runner.os == 'Windows'
       shell: pwsh
     # todo: remove /c/Program Files (x86)/pipx_bin from $PATH
@@ -78,7 +78,7 @@ runs:
     - run: ..\pipx_venv\Scripts\python -m pip install pipx==${{ inputs.pipx-version }}
       if: ${{ runner.os == 'Windows' && inputs.pipx-version != '' }}
       shell: pwsh
-    - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
+    - run: cp ..\pipx_venv\Scripts\pipx.exe "%programfiles(x86)%\pipx_bin\pipx.exe"
       # note: this is a bit weird, as this folder should really just hold pip-installed binaries...
       if: runner.os == 'Windows'
       shell: pwsh
