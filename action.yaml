@@ -79,5 +79,5 @@ runs:
       shell: pwsh
 
     - run: pipx ensurepath
-      if: runner.os != 'Windows'
+      if: runner.os == 'Windows'
       shell: bash
