@@ -85,10 +85,6 @@ runs:
 #       if: runner.os == 'Windows'
 #       shell: pwsh
 
-    # temp
-    - run: which pipx
-      if: runner.os == 'Windows'
-      shell: pwsh
 
     - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
       if: runner.os == 'Windows'
