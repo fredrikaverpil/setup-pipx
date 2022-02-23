@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.10"
-      - uses: fredrikaverpil/setup-pipx@v1.3
+      - uses: fredrikaverpil/setup-pipx@v1.4
         with:
           pipx-version: "1.0"
       - run: pipx install <package>
