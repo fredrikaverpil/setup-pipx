@@ -10,29 +10,64 @@ runs:
   using: composite
   steps:
     # Linux, macOS
+
+    - run: mkdir -p $HOME/.local
+      if: runner.os != 'Windows'
+      shell: bash
+    - run: echo "PIPX_BIN_DIR=$HOME/.local/bin" >> $GITHUB_ENV
+      if: runner.os != 'Windows'
+      shell: bash
+    - run: echo "PIPX_HOME=$HOME/.local/pipx" >> $GITHUB_ENV
+      if: runner.os != 'Windows'
+      shell: bash
+    - run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+      if: runner.os != 'Windows'
+      shell: bash
+    # todo: remove /opt/pipx_bin from $PATH ?
+
     - run: python -m venv ../pipx_venv
       if: runner.os != 'Windows'
       shell: bash
-
     - run: ../pipx_venv/bin/python -m pip install pipx
       if: ${{ runner.os != 'Windows' && inputs.pipx-version == '' }}
       shell: bash
-
     - run: ../pipx_venv/bin/python -m pip install pipx==${{ inputs.pipx-version }}
       if: ${{ runner.os != 'Windows' && inputs.pipx-version != '' }}
       shell: bash
-
     - run: mv /usr/local/bin/pipx /usr/local/bin/pipx_orig
       if: runner.os != 'Windows'
       shell: bash
     - run: cp ../pipx_venv/bin/pipx /usr/local/bin/pipx
       if: runner.os != 'Windows'
       shell: bash
-    - run: echo "/.local/bin" >> $GITHUB_PATH
+
+    - run: which pipx
+      if: runner.os != 'Windows'
+      shell: bash
+    - run: pipx ensurepath
       if: runner.os != 'Windows'
       shell: bash
 
+
     # Windows
+    
+    - run: pip uninstall -y pipx || echo "Always return non-zero exit code"
+      # specific fix for windows, could be improved to rename the pipx.exe file instead
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: mkdir -p $HOME\.local
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: echo "PIPX_BIN_DIR=C:\Program Files (x86)\pipx_bin" >> $GITHUB_ENV
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: echo "PIPX_HOME=C:\Program Files (x86)\pipx" >> $GITHUB_ENV
+      if: runner.os == 'Windows'
+      shell: pwsh
+    - run: echo "C:\Program Files (x86)\pipx_bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      if: runner.os == 'Windows'
+      shell: pwsh
+      
     - run: python -m venv ..\pipx_venv
       if: runner.os == 'Windows'
       shell: pwsh
@@ -42,12 +77,14 @@ runs:
     - run: ..\pipx_venv\Scripts\python -m pip install pipx==${{ inputs.pipx-version }}
       if: ${{ runner.os == 'Windows' && inputs.pipx-version != '' }}
       shell: pwsh
-    - run: mkdir -p $HOME\.local\Scripts
+    - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
+      # note: this is a bit weird, as this folder should really just hold pip-installed binaries...
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: cp ..\pipx_venv\Scripts\pipx.exe $HOME\.local\Scripts\pipx.exe
+
+    - run: which pipx
       if: runner.os == 'Windows'
-      shell: pwsh
-    - run: echo "$HOME\.local\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: bash
+    - run: pipx ensurepath
       if: runner.os == 'Windows'
       shell: pwsh
