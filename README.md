@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.10"
-      - uses: fredrikaverpil/setup-pipx@v1.4
+      - uses: fredrikaverpil/setup-pipx@v1.5
         with:
           pipx-version: "1.0"
       - run: pipx install <package>
@@ -23,17 +23,17 @@ jobs:
 
 ## Features
 
-- Pipx will be installed in an isolated virtual environment, in `../pipx_venv`
-- Control the Python interpreter version with [`actions/setup-python`](https://github.com/actions/setup-python)
-- Control the pipx version using the optional `with: pipx-version` statement
+- You decide the Python and pipx versions used.
+- Pipx will be installed in an isolated virtual environment, in `.venv_pipx`. You may want to add this to your `.gitignore` so to avoid a dirty git branch during CI execution.
 - Can be used in conjunction with [`actions/cache`](https://github.com/actions/cache)
 - Support for linux, macOS and windows runners
 
 ## Inputs
 
-| Inputs       | Description  | Required | Default |
-| ------------ | ------------ | -------- | ------- |
-| pipx-version | Pipx Version | false    | `N/A`   |
+| Inputs       | Description                      | Required | Default      |
+| ------------ | -------------------------------- | -------- | ------------ |
+| pipx-version | Pipx Version                     | false    | `N/A`        |
+| venv-name    | Name of pipx virtual environment | false    | `.venv_pipx` |
 
 ## Advanced usage
 
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - uses: fredrikaverpil/setup-pipx@v1.4
+      - uses: fredrikaverpil/setup-pipx@v1.5
         with:
           pipx-version: ${{ matrix.pipx-version }}
       - uses: actions/cache@v2
@@ -70,7 +70,8 @@ jobs:
             ~/.local/bin
             C:\Program Files (x86)\pipx
             C:\Program Files (x86)\pipx_bin
-          key: ${{ runner.os }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
+            .venv_pipx
+          key: ${{ runner.os }}-${{ runner.arch }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
 
       - run: |
           pipx install poetry==${{ matrix.poetry-version }}
