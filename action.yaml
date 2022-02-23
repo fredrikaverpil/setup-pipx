@@ -79,9 +79,7 @@ runs:
     - run: which pipx
       shell: pwsh
 
-    - run: |
-        mkdir -p "C:\Program Files (x86)\pipx_bin"
-        cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
+    - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
       if: runner.os == 'Windows'
       shell: pwsh
 
