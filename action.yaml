@@ -23,7 +23,7 @@ runs:
     - run: echo "$HOME/.local/bin" >> $GITHUB_PATH
       if: runner.os != 'Windows'
       shell: bash
-    # todo: remove /opt/pipx_bin from $PATH
+    # todo: remove /opt/pipx_bin from $PATH ?
 
     - run: python -m venv ../pipx_venv
       if: runner.os != 'Windows'
@@ -52,7 +52,7 @@ runs:
     # Windows
     
     - run: pip uninstall -y pipx || echo "Always return non-zero exit code"
-      # specific fix for windows
+      # specific fix for windows, could be improved to rename the pipx.exe file instead
       if: runner.os == 'Windows'
       shell: pwsh
     - run: mkdir -p $HOME\.local
@@ -67,7 +67,6 @@ runs:
     - run: echo "C:\Program Files (x86)\pipx_bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       if: runner.os == 'Windows'
       shell: pwsh
-    # todo: remove /c/Program Files (x86)/pipx_bin from $PATH
       
     - run: python -m venv ..\pipx_venv
       if: runner.os == 'Windows'
