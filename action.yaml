@@ -1,5 +1,5 @@
-name: Pipx setup
-description: Pipx setup for GitHub Actions
+name: Setup pipx
+description: Setup pipx for GitHub Actions
 
 inputs:
   pipx-version:
