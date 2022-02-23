@@ -66,17 +66,10 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.cache/pypoetry/virtualenvs
-            ~/.local/pipx
-            ~/.local/bin
-            C:\Program Files (x86)\pipx
-            C:\Program Files (x86)\pipx_bin
             .venv_pipx
           key: ${{ runner.os }}-${{ runner.arch }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
 
-      - run: |
-          pipx install poetry==${{ matrix.poetry-version }}
-          poetry install
-        if: steps.cache.outputs.cache-hit != 'true'
-
+      - run: pipx install poetry==${{ matrix.poetry-version }}
+      - run: poetry install
       - run: poetry show --outdated
 ```
