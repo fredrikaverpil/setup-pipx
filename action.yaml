@@ -73,11 +73,11 @@ runs:
       shell: pwsh
     - run: mv "C:\Program Files (x86)\pipx_bin\pipx.exe" "C:\Program Files (x86)\pipx_bin\pipx_orig.exe"
       if: runner.os == 'Windows'
-      shell: bash
+      shell: pwsh
     - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
       if: runner.os == 'Windows'
       shell: pwsh
 
     - run: pipx ensurepath
       if: runner.os == 'Windows'
-      shell: bash
+      shell: pwsh
