@@ -72,7 +72,7 @@ jobs:
           key: ${{ runner.os }}-py-${{ matrix.python-version }}-pipx-${{ matrix.pipx-version }}-poetry-${{ matrix.poetry-version }}-${{ hashFiles('poetry.lock') }}
 
       - run: |
-          pipx install poetry
+          pipx install poetry==${{ matrix.poetry-version }}
           poetry install
         if: steps.cache.outputs.cache-hit != 'true'
 
