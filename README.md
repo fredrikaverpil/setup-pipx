@@ -27,3 +27,9 @@ jobs:
 - Control the Python interpreter version with [`actions/setup-python`](https://github.com/actions/setup-python)
 - Control the pipx version using the optional `with: pipx-version` statement
 - Support for linux, macOS and windows runners
+
+## Inputs
+
+| Inputs       | Description  | Required | Default |
+| ------------ | ------------ | -------- | ------- |
+| pipx-version | Pipx Version | false    | `N/A`   |
