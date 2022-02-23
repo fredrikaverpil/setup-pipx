@@ -55,9 +55,6 @@ runs:
       # specific fix for windows, could be improved to rename the pipx.exe file instead
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: mkdir -p $HOME\.local
-      if: runner.os == 'Windows'
-      shell: pwsh
     - run: echo "PIPX_BIN_DIR=C:\Program Files (x86)\pipx_bin" >> $GITHUB_ENV
       if: runner.os == 'Windows'
       shell: pwsh
