@@ -51,6 +51,10 @@ runs:
 
     # Windows
     
+    - run: pip uninstall pipx || echo "Always return non-zero exit code"
+      # specific fix for windows
+      if: runner.os == 'Windows'
+      shell: pwsh
     - run: mkdir -p $HOME\.local
       if: runner.os == 'Windows'
       shell: pwsh
