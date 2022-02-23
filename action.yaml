@@ -20,7 +20,7 @@ runs:
     - run: echo "PIPX_HOME=$HOME/.local/pipx" >> $GITHUB_ENV
       if: runner.os != 'Windows'
       shell: bash
-    - run: echo "/.local/bin" >> $GITHUB_PATH
+    - run: echo "$HOME/.local/bin" >> $GITHUB_PATH
       if: runner.os != 'Windows'
       shell: bash
     # todo: remove /opt/pipx_bin from $PATH
