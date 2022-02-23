@@ -5,6 +5,10 @@ inputs:
   pipx-version:
     description: The version of pipx to use.
     required: false
+  venv-name:
+    description: The name of the pipx virtual environment.
+    required: false
+    default: .venv_pipx
 
 runs:
   using: composite
@@ -25,19 +29,19 @@ runs:
       shell: bash
     # todo: remove /opt/pipx_bin from $PATH ?
 
-    - run: python -m venv ../pipx_venv
+    - run: python -m venv ${{ inputs.venv-name }}
       if: runner.os != 'Windows'
       shell: bash
-    - run: ../pipx_venv/bin/python -m pip install pipx
+    - run: ${{ inputs.venv-name }}/bin/python -m pip install pipx
       if: ${{ runner.os != 'Windows' && inputs.pipx-version == '' }}
       shell: bash
-    - run: ../pipx_venv/bin/python -m pip install pipx==${{ inputs.pipx-version }}
+    - run: ${{ inputs.venv-name }}/bin/python -m pip install pipx==${{ inputs.pipx-version }}
       if: ${{ runner.os != 'Windows' && inputs.pipx-version != '' }}
       shell: bash
     - run: mv /usr/local/bin/pipx /usr/local/bin/pipx_orig
       if: runner.os != 'Windows'
       shell: bash
-    - run: cp ../pipx_venv/bin/pipx /usr/local/bin/pipx
+    - run: cp ${{ inputs.venv-name }}/bin/pipx /usr/local/bin/pipx
       if: runner.os != 'Windows'
       shell: bash
 
@@ -48,9 +52,8 @@ runs:
       if: runner.os != 'Windows'
       shell: bash
 
-
     # Windows
-    
+
     - run: pip uninstall -y pipx || echo "Always return non-zero exit code"
       # specific fix for windows, could be improved to rename the pipx.exe file instead
       if: runner.os == 'Windows'
@@ -64,17 +67,17 @@ runs:
     - run: echo "C:\Program Files (x86)\pipx_bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       if: runner.os == 'Windows'
       shell: pwsh
-      
-    - run: python -m venv ..\pipx_venv
+
+    - run: python -m venv ${{ inputs.venv-name }}
       if: runner.os == 'Windows'
       shell: pwsh
-    - run: ..\pipx_venv\Scripts\python -m pip install pipx
+    - run: ${{ inputs.venv-name }}\Scripts\python -m pip install pipx
       if: ${{ runner.os == 'Windows' && inputs.pipx-version == '' }}
       shell: pwsh
-    - run: ..\pipx_venv\Scripts\python -m pip install pipx==${{ inputs.pipx-version }}
+    - run: ${{ inputs.venv-name }}\Scripts\python -m pip install pipx==${{ inputs.pipx-version }}
       if: ${{ runner.os == 'Windows' && inputs.pipx-version != '' }}
       shell: pwsh
-    - run: cp ..\pipx_venv\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
+    - run: cp ${{ inputs.venv-name }}\Scripts\pipx.exe "C:\Program Files (x86)\pipx_bin\pipx.exe"
       # note: this is a bit weird, as this folder should really just hold pip-installed binaries...
       if: runner.os == 'Windows'
       shell: pwsh
