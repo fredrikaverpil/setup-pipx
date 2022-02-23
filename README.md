@@ -1,4 +1,4 @@
-# pipx-action
+# setup-pipx
 
 [Pipx](https://github.com/pypa/pipx) setup for GitHub Actions.
 
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.10"
-      - uses: fredrikaverpil/pipx-action@v1.3
+      - uses: fredrikaverpil/setup-pipx@v1.3
         with:
           pipx-version: "1.0"
       - run: pipx install <package>
