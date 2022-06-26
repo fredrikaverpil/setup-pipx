@@ -16,6 +16,8 @@ jobs:
         with:
           python-version: "3.10"
       - uses: fredrikaverpil/setup-pipx@v1.5
+        with:
+          pipx-version: "1.1.0"
       - run: pipx install <package>
 ```
 
