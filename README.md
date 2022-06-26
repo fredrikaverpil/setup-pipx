@@ -48,7 +48,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        pipx-version: ["1.0.0"]
+        pipx-version: ["1.1.0"]
         poetry-version: ["1.1.13"]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
