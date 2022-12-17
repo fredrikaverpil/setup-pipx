@@ -1,5 +1,26 @@
 # setup-pipx
 
+:cake: this project is deprecated. Just do this instead:
+
+```yaml
+on: [push]
+
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        id: cpython_setup
+        with:
+          python-version: "3.10"
+      - run: pipx install poetry --python '${{ steps.cpython_setup.outputs.python-path }}'
+      - run: poetry install
+```
+
+Original README below:
+___
+
 [Pipx](https://github.com/pypa/pipx) setup for GitHub Actions.
 
 ## Quickstart example
